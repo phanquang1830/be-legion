@@ -85,3 +85,7 @@ components:
         location:
           type: string
           example: "Trung tâm hội chợ triển lãm Sài Gòn SECC, quận 7"
+        cover_image_url:
+          type: string
+          format: uri
+          example: "https://example.com/images/event1.jpg"
