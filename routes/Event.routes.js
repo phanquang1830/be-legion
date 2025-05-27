@@ -1,12 +1,12 @@
 // routes/event.routes.js
 import express from "express";
-import EventController from "../controllers/EventController.js";
+import { getAllEventController, getEventByIdController } from "../controllers/Event.controller.js";
 
 const router = express.Router();
 
 // Lấy danh sách tất cả sự kiện
 router.route("/")
-.get(EventController.getAllEventsController);
+.get(EventController.getAllEventController);
 
 // Lấy thông tin sự kiện theo ID (nên dùng query hoặc route param cho chuẩn REST)
 router.route("/:id")
