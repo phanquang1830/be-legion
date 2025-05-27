@@ -6,11 +6,11 @@ const router = express.Router();
 
 // Lấy danh sách tất cả sự kiện
 router.route("/")
-.get(EventController.getAllEventController);
+.get(getAllEventController);
 
 // Lấy thông tin sự kiện theo ID (nên dùng query hoặc route param cho chuẩn REST)
 router.route("/:id")
-.get(EventController.getEventByIdController);
+.get(getEventByIdController);
 
 // Export hàm để khởi tạo route vào app
 

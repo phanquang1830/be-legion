@@ -3,7 +3,7 @@ const eventSchema = new mongoose.Schema({
   id: {
     type: String,
     required: true,
-    unique: true,  // đảm bảo id là duy nhất
+    unique: true, // đảm bảo id là duy nhất
   },
   title: {
     type: String,

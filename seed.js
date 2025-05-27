@@ -1,6 +1,6 @@
-// seed.js
 import mongoose from 'mongoose';
-import Event from './models/Event.model.js'; // Đảm bảo đường dẫn đúng tới model Event
+import Event from './models/Event.model.js';
+
 const sampleEvents = [
   {
     title: "Vietnam Gameverse 2025",
@@ -44,11 +44,29 @@ const sampleEvents = [
   }
 ];
 
-mongoose.connect('mongodb://localhost:27017/yourDatabaseName')
+const sampleEventsWithId = sampleEvents.map((event, index) => ({
+  id: `event${index + 1}`,
+  ...event,
+  startDate: new Date(event.startDate),
+  endDate: new Date(event.endDate)
+}));
+
+mongoose.connect('mongodb+srv://dbEvent:admin123@cluster0.bg84pcc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
   .then(async () => {
-    await Event.deleteMany(); // Xoá dữ liệu cũ nếu có
-    await Event.insertMany(sampleEvents);
-    console.log("✅ Đã thêm 5 sự kiện mẫu vào MongoDB");
+    console.log("✅ Đã kết nối MongoDB");
+
+    await Event.deleteMany();
+    console.log("🗑️ Đã xoá dữ liệu cũ");
+
+    try {
+      await Event.insertMany(sampleEventsWithId, { ordered: false });
+      console.log("✅ Đã thêm 5 sự kiện mẫu vào MongoDB");
+    } catch (error) {
+      console.error("❌ Lỗi khi thêm một số sự kiện:", error);
+    }
+
     mongoose.disconnect();
   })
-  .catch(console.error);
+  .catch((err) => {
+    console.error("❌ Lỗi kết nối MongoDB:", err);
+  });
