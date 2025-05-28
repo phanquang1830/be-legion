@@ -16,7 +16,7 @@ const getEventByIdController = asyncHandler(async (req, res) => {
     const { id } = req.params;
     const event = await Event.findById(id);
     if (!event) {
-        throw new Error("Event not found"); 
+        throw new creatEror("Event not found",404);
     } else {
         res.status(200).json(event);
     }
