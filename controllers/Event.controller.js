@@ -17,11 +17,11 @@ const getAllEventController = asyncHandler(async (req, res) => {
 const getEventByIdController = asyncHandler(async (req, res) => {
     const { id } = req.params;
     if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new createError("Invalid event id", 400);
+        throw new createError("ID không hợp lệ", 400);
     }
     const event = await Event.findById(id);
     if (!event) {
-        throw new createError("Event not found", 404);
+        throw new createError("ID Event không tồn tại", 404);
     }
     res.status(200).json(event);
 }

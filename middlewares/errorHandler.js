@@ -13,7 +13,7 @@ function errorHandler(err, req, res, next) {
   if (err.name === 'UnauthorizedError' || err.name === 'JsonWebTokenError') {
     return res.status(401).json({
       status: 'fail',
-      message: 'Invalid or expired token',
+      message: 'Token Không Hợp Lệ Hoặc Hết Hạn',
     });
   }
 
@@ -21,7 +21,7 @@ function errorHandler(err, req, res, next) {
   if (err.statusCode === 403) {
     return res.status(403).json({
       status: 'fail',
-      message: err.message || 'Forbidden',
+      message: err.message || 'Truy Cập Bị Từ Chối',
     });
   }
 
@@ -29,14 +29,14 @@ function errorHandler(err, req, res, next) {
   if (err.statusCode === 404) {
     return res.status(404).json({
       status: 'fail',
-      message: err.message || 'Resource not found',
+      message: err.message || 'Không Tìm Thấy Tài Nguyên',
     });
   }
 
   // Default: Internal Server Error
   res.status(err.statusCode || 500).json({
     status: 'error',
-    message: err.message || 'Internal Server Error',
+    message: err.message || 'Lỗi Server',
   });
 }
 
