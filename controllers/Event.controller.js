@@ -2,12 +2,13 @@ import asyncHandler from "express-async-handler";
 import Event from "../models/Event.model.js";
 import createError from "../utils/createError.js";
 import mongoose from "mongoose";
+import paginate from "../utils/paginate.js";
 
 // @desc    Get all events
 // @route   GET /api/events 
 // @access  Public
 const getAllEventController = asyncHandler(async (req, res) => {
-    const events = await Event.find({});
+    const events = await paginate(Event.find({}), req.query);
     res.status(200).json(events);
 });
 
