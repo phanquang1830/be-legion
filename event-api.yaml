@@ -1,0 +1,196 @@
+openapi: 3.0.0
+
+info: 
+  title: Event API
+  description: API quản lý danh sách Event
+  version: 1.0.0
+
+servers: 
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/yuu-e71/event-api/1.0.0
+  - url: http://localhost:3000/api
+    description: Local server
+
+paths:
+  /events:
+    get:
+      summary: Lấy danh sách Event
+      description: Trả về danh sách tất cả Event
+      operationId: getAllListEvent
+      tags: 
+        - Event
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema: 
+            type: integer
+            minimum: 1
+          description: Trang hiện tại (Mặc định là 1)
+          
+        - name: limit
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+          description: Số lượng Event trên mỗi trang (Mặc định là 10)
+      responses:
+        '200':
+          description: Danh sách Event được trả về thành công
+          content:
+            application/json:
+              schema:
+                type: array
+                items: 
+                  $ref: '#/components/schemas/Event'
+        '500':
+          description: Lỗi server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Lỗi server
+                  
+  /events/{id}:
+    get:
+      summary: Lấy chi tiết Event theo ID
+      description: Trả về chi tiết Event theo ID
+      operationId: getEventById
+      tags: 
+        - Event
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của Event
+          schema: 
+            type: string
+      responses:
+        '200':
+          description: Lấy Event theo ID thành công
+          content:
+            application/json: 
+              schema:
+                $ref: '#/components/schemas/Event'
+        '400':
+          description: ID không hợp lệ
+          content: 
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: ID không hợp lệ
+        '404':
+          description: ID Event không tồn tại 
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Event không tồn tại
+        '500': 
+          description: Lỗi server
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Có lỗi xảy ra trên server
+
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        id: 
+          type: string
+          description: ID duy nhất của Event, tự động tăng
+          example: "event1"
+        name: 
+          type: string
+          description: Tên Event
+          example: "Event cosplay"
+        slug:
+          type: string
+          description: URL thân thiện của Event
+          example: "event-cosplay"
+        host:
+          type: string
+          description: Người tổ chức Event
+          example: "Yuu"
+        community_member_id:
+          type: string
+          description: ID của thành viên tổ chức 
+          example: 7a4e2b3f-cc3d-4f2c-90ab-23a5f01b9a78
+        in_person_location:
+          type: string
+          description: Địa điểm tổ chức Event
+          example: Trung tâm hội chợ triễn lãm Sài Gòn SECC, quận 7
+        starts_at: 
+          type: string
+          format: date
+          description: Thời gian Event bắt đầu 
+          example: "2025-05-24"
+        ends_at:
+          type: string
+          format: date
+          description: Thời gian Event kết thúc
+          example: "2025-05-25"
+        created_at:
+          type: string
+          format: date
+          description: Thời gian tạo Event
+          example: "2025-05-24"
+        updated_at:
+          type: string
+          format: date
+          description: Thời gian cập nhật Event gần nhất
+          example: "2025-05-24"
+        url: 
+          type: string
+          description: URL đầy đủ của Event
+          example: "https://su-kien/event-cosplay"
+        cover_image_url:
+          type: string
+          description: URL ảnh bìa của Event
+          example: "https://images/events/event-cosplay-cover.jpg"
+        description: 
+          type: string
+          description: Mô tả chi tiết Event
+          example: "Event Cosplay năm 2025 sẽ diễn ra tại trung tâm hội nghị thành phố với nhiều hoạt động hấp dẫn như thi cosplay, giao lưu với khách mời nổi tiếng, và các gian hàng merchandise."
+        price: 
+          type: number
+          description: Giá vé hoặc phí tham dự (Đơn vị VND)
+          example: 250000
+        max_attendees:
+          type: number
+          description: Số lượng người tham gia tối đa
+          example: 300
+        current_attendees: 
+          type: number
+          description: Số lượng người đăng kí
+          example: 150
+        status: 
+          type: string
+          description: Trạng thái (upcoming/ongoing/finished/cancelled)
+          example: "upcoming"
+        category: 
+          type: string
+          description: Loại Event (workshop/talk/networking/yoga...)
+          example: "Cosplay"
+        location_URL:
+          type: string
+          description: URL Google Map của Event
+          example: "https://www.google.com/maps/place/Ho+Chi+Minh+City/@10.762622,106.660172,15z"
