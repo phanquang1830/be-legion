@@ -16,10 +16,16 @@ const getAllEventController = asyncHandler(async (req, res) => {
 // @access  Public
 const getEventByIdController = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    if (!mongoose.Types.ObjectId.isValid(id)) {
-        throw new createError("ID không hợp lệ", 400);
+    let event = null;
+
+    // Nếu id là ObjectId hợp lệ, thử tìm theo _id trước
+    if (mongoose.Types.ObjectId.isValid(id)) {
+        event = await Event.findById(id);
     }
-    const event = await Event.findById(id);
+    // Nếu không tìm thấy, thử tìm theo trường id tự định nghĩa
+    if (!event) {
+        event = await Event.findOne({ id });
+    }
     if (!event) {
         throw new createError("ID Event không tồn tại", 404);
     }
