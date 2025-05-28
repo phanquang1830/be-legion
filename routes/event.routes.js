@@ -2,10 +2,13 @@ import express from 'express';
 const router = express.Router();
 import {
     getAllListEvent,
-    getEventById
+    getEventById,
+    createEvent
 } from '../controllers/event.controller.js'
 
-router.route('/').get(getAllListEvent)
+router.route('/')
+    .get(getAllListEvent)
+    .post(createEvent)
 
 router.route('/:id').get(getEventById)
 
