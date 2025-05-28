@@ -1,6 +1,8 @@
 import asyncHandler from "express-async-handler";
 import Event from "../models/Event.model.js";
 import createError from "../utils/createError.js";
+import mongoose from "mongoose";
+
 // @desc    Get all events
 // @route   GET /api/events 
 // @access  Public
@@ -14,12 +16,14 @@ const getAllEventController = asyncHandler(async (req, res) => {
 // @access  Public
 const getEventByIdController = asyncHandler(async (req, res) => {
     const { id } = req.params;
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+        throw new createError("Invalid event id", 400);
+    }
     const event = await Event.findById(id);
     if (!event) {
-        throw new createError("Event not found",404);
-    } else {
-        res.status(200).json(event);
+        throw new createError("Event not found", 404);
     }
+    res.status(200).json(event);
 }
 );
 
