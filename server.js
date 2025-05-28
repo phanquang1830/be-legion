@@ -10,10 +10,10 @@ connectDB(); // Connect to MongoDB
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-app.use(errorHandler); // Use the error handler middleware
-app.use(express.json());
 
+app.use(express.json());
 app.use('/api/events', eventRoutes); // Use the event routes
+app.use(errorHandler); // Use the error handler middleware
 
 app.listen(PORT, () =>{
     console.log(`App listen on port ${PORT}`)
