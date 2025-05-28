@@ -14,7 +14,11 @@ const getAllListEvent = asyncHandler (async (req, res) =>{
 // @access Public
 const getEventById = asyncHandler (async (req, res) =>{
     const event = await Event.findById(req.params.id);
-    return res.json(event || {} );
+    if (!event) {
+        res.status(404);
+        throw new Error("Không tìm thấy sự kiện");
+    }
+    res.json(event);
 });
 
 export {

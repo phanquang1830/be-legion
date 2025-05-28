@@ -1,0 +1,87 @@
+openapi: 3.0.0
+info:
+  title: Event API
+  description: API quản lý danh sách và chi tiết sự kiện
+  version: 1.0.0
+
+servers:
+  - url: http://localhost:3000/api
+    description: Local server
+
+paths:
+  /events:
+    get:
+      summary: Lấy danh sách tất cả sự kiện
+      description: Trả về danh sách các sự kiện, có thể lọc theo trạng thái
+      tags:
+        - Events
+      parameters:
+        - in: query
+          name: status
+          description: Trạng thái sự kiện (UPCOMING, ONGOING, ENDED)
+          required: false
+          schema:
+            type: string
+            enum: [UPCOMING, ONGOING, ENDED]
+      responses:
+        "200":
+          description: Danh sách sự kiện được trả về thành công
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Event"
+        "500":
+          description: Lỗi server nội bộ
+
+  /events/{id}:
+    get:
+      summary: Lấy chi tiết sự kiện theo ID
+      description: Trả về thông tin chi tiết của một sự kiện cụ thể
+      tags:
+        - Events
+      parameters:
+        - name: id
+          in: path
+          required: true
+          description: ID của sự kiện
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Chi tiết sự kiện trả về thành công
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Event"
+        "404":
+          description: Không tìm thấy sự kiện
+        "500":
+          description: Lỗi server nội bộ
+
+components:
+  schemas:
+    Event:
+      type: object
+      properties:
+        id:
+          type: string
+          example: "event1"
+        title:
+          type: string
+          example: "Vietnam Gameverse 2025"
+        description:
+          type: string
+          example: "Festival HCM"
+        startDate:
+          type: string
+          format: date
+          example: "2025-05-24"
+        endDate:
+          type: string
+          format: date
+          example: "2025-05-25"
+        location:
+          type: string
+          example: "Trung tâm hội chợ triển lãm Sài Gòn SECC, quận 7"
