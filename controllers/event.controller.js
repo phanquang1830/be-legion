@@ -1,12 +1,10 @@
 import Event from '../models/event.model.js'
 import asyncHandler from 'express-async-handler';
-import paginateWithSearch from '../middlewares/paginate.middleware.js';
 
 // @desc Fetch Event
 // @route GET /api/event
 // @access Public
 const getAllListEvent = asyncHandler (async (req, res) =>{
-    const event = await Event.find();
     res.json(res.paginatedResult);
 });
 
@@ -15,7 +13,12 @@ const getAllListEvent = asyncHandler (async (req, res) =>{
 // @access Public
 const getEventById = asyncHandler (async (req, res) =>{
     const event = await Event.findById(req.params.id);
-    return res.json(event || {} );
+
+    if(!event) {
+        res.status(404)
+        throw new Error("Event not Found")
+    }
+    return res.json(event);
 });
 
 const createEvent = asyncHandler (async (req, res) =>{
