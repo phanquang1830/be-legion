@@ -18,7 +18,7 @@ const eventSchema = mongoose.Schema(
             type: String,
             required: true
         },
-        in_persion_location: {
+        in_person_location: {
             type: String,
             required: true
         },
@@ -32,7 +32,7 @@ const eventSchema = mongoose.Schema(
         },
         create_at: {
             type: Date,
-            required: true
+            default: Date.now
         },
         updated_at: {
             type: Date,
