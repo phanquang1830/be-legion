@@ -1,39 +1,43 @@
-import asyncHandler from 'express-async-handler';
+import asyncHandler from "express-async-handler"
+import { Op } from "sequelize" // 💡 Sequelize Operators (Op.like)
 
-const paginateWithSearch = (model, searchableField = 'name') => {
-  return asyncHandler( async (req, res, next) => {
-    const currentPage = Number(req.query.page) || 1; // Trang hiện tại
-    const limit = Number(req.query.limit) || 8; // Số mục tối đa mỗi trang
-    const keyword = req.query.keyword || ''; // Từ khóa người dùng nhập để tìm kiếm
+const paginateWithSearch = (model, searchableField = "name") => {
+  return asyncHandler(async (req, res, next) => {
+    const currentPage = Number(req.query.page) || 1
+    const limit = Number(req.query.limit) || 8
+    const keyword = req.query.keyword || ""
 
-    const query = {}; // Đối tượng chứa điều kiện truy vấn
+    const offset = limit * (currentPage - 1)
 
-    if (keyword) {
-      query[searchableField] = {
-        $regex: keyword, // Tìm tài liệu có trường searchableField chứa chuỗi keyword
-        $options: 'i', // Không phân biệt chữ hoa/chữ thường
-      };
+    // Tạo điều kiện truy vấn giống với MongoDB `$regex` bằng Sequelize `Op.like`
+    const whereClause = keyword
+      ? {
+          [searchableField]: {
+            [Op.like]: `%${keyword}%`, // Sequelize thay thế cho $regex + $options: 'i'
+          },
+        }
+      : {}
+
+    // Sequelize thay thế cho:
+    // const totalDocuments = await model.countDocuments(query);
+    // const data = await model.find(query).sort(...).limit(...).skip(...)
+    const { count: totalDocuments, rows: data } = await model.findAndCountAll({
+      where: whereClause,
+      order: [["created_at", "DESC"]], // thay cho `.sort({ createdAt: 'desc' })`
+      limit,                           // giống `.limit(limit)`
+      offset,                          // giống `.skip(limit * (currentPage - 1))`
+    })
+
+    res.paginatedResult = {
+      data,
+      currentPage,
+      limit,
+      totalPages: Math.ceil(totalDocuments / limit),
+      totalDocuments,
     }
 
-      const totalDocuments = await model.countDocuments(query); 
-      // Đếm số tài liệu thỏa mãn điều kiện query trong collection
+    next()
+  })
+}
 
-      const data = await model
-        .find(query) // Tìm tài liệu theo điều kiện query
-        .sort({ createdAt: 'desc' }) // Sắp xếp theo trường createdAt, mới nhất trước
-        .limit(limit) // Giới hạn số lượng tài liệu trên mỗi trang
-        .skip(limit * (currentPage - 1)); // Bỏ qua các tài liệu thuộc các trang trước
-
-      res.paginatedResult = {
-        data,
-        currentPage,
-        limit,
-        totalPages: Math.ceil(totalDocuments / limit), // Tổng số trang
-        totalDocuments, // Tổng số tài liệu thỏa mãn điều kiện
-      };
-      next();
-
-  });
-};
-
-export default paginateWithSearch;
+export default paginateWithSearch
