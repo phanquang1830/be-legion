@@ -1,83 +1,85 @@
-import mongoose from "mongoose";
+import { DataTypes } from "sequelize"
+import sequelize from "../config/db.js" 
 
-const eventSchema = mongoose.Schema(
-    {
-        name: {
-            type: String,
-            required: true
-        },
-        slug: {
-            type: String,
-            required: true
-        },
-        host: {
-            type: String,
-            required: true
-        },
-        community_member_id: {
-            type: String,
-            required: true
-        },
-        in_person_location: {
-            type: String,
-            required: true
-        },
-        starts_at: {
-            type: Date,
-            required: true
-        },
-        ends_at: {
-            type: Date,
-            required: true
-        },
-        create_at: {
-            type: Date,
-            default: Date.now
-        },
-        updated_at: {
-            type: Date,
-            required: true
-        },
-        url: {
-            type: String,
-            required: true
-        },
-        cover_image_url: {
-            type: String,
-            required: true
-        },
-        description: {
-            type: String,
-            required: true
-        },
-        price: {
-            type: Number,
-            required: true
-        },
-        max_attendees: {
-            type: Number,
+const Event = sequelize.define("Event", {
+    name: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    slug: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    host: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    community_member_id: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    in_person_location: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    starts_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    ends_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    created_at: {
+        type: DataTypes.DATE,
+        defaultValue: DataTypes.NOW,
+    },
+    updated_at: {
+        type: DataTypes.DATE,
+        allowNull: false,
+    },
+    url: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    cover_image_url: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    description: {
+        type: DataTypes.TEXT,
+        allowNull: false,
+    },
+    price: {
+        type: DataTypes.FLOAT,
+        allowNull: false,
+    },
+    max_attendees: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        validate: {
             max: 300,
-            required: true
         },
-        current_attendees: {
-            type: Number,
-            required: true
-        },
-        status: {
-            type: String,
-            enum: ['upcoming', 'ongoing', 'finished', 'cancelled'],
-            required: true
-        },
-        category: {
-            type: String,
-            required: true
-        },
-        location_URL: {
-            type: String,
-            required: true
-        }
-    }
-)
+    },
+    current_attendees: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+    },
+    status: {
+        type: DataTypes.ENUM("upcoming", "ongoing", "finished", "cancelled"),
+        allowNull: false,
+    },
+    category: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+    location_URL: {
+        type: DataTypes.STRING,
+        allowNull: false,
+    },
+}, {
+    tableName: "events",
+    timestamps: false, 
+})
 
-const Event = mongoose.model('Event', eventSchema)
 export default Event
