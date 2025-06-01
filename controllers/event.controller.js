@@ -28,19 +28,28 @@ const getAllListEvent = asyncHandler(async (req, res) => {
 // @desc Fetch single Event 
 // @route GET /api/event/:id
 // @access Public
-const getEventById = asyncHandler (async (req, res) =>{
-    const event = await Event.findByPk(req.params.id);
+const getEventById = asyncHandler(async (req, res) => {
+  const id = req.params.id;
 
-    if(!event) {
-        res.status(404)
-        throw new Error("Event not Found")
-    }
-    return res.json({
-        statusCode: 200,
-        message: 'Get Event By Id Success',
-        data: event
-    });
+  if (!id || isNaN(id)) {
+    res.status(400);
+    throw new Error("Invalid Event ID");
+  }
+
+  const event = await Event.findByPk(id);
+
+  if (!event) {
+    res.status(404);
+    throw new Error("Event not found");
+  }
+
+  res.status(200).json({
+    statusCode: 200,
+    message: "Get Event By ID success",
+    data: event,
+  });
 });
+
 
 const createEvent = asyncHandler(async (req, res) => {
   const event = req.body
