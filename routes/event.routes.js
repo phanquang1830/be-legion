@@ -5,11 +5,9 @@ import {
     getEventById,
     createEvent
 } from '../controllers/event.controller.js'
-import paginateWithSearch from '../middlewares/paginate.middleware.js';
-import Event from '../models/event.model.js';
 
 router.route('/')
-    .get(paginateWithSearch(Event, 'name'),getAllListEvent)
+    .get(getAllListEvent)
     .post(createEvent)
 
 router.route('/:id').get(getEventById)
