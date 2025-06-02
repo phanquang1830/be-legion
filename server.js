@@ -9,7 +9,7 @@ import { notFound, errorHandler } from './middlewares/error.middleware.js';
 dotenv.config();
 
 const app = express();
-const PORT = process.env.PORT || 3000 
+const PORT = parseInt(process.env.PORT) || 3000 
 
 const swaggerDocument = YAML.load("./event-api.yaml");
 
