@@ -19,11 +19,11 @@ const sequelize = new Sequelize(
     },
 
     pool: {
-      max: parseInt(process.env.DB_POOL_MAX) || '10', // Số kết nối tối đa
-      min: parseInt(process.env.DB_POOL_MIN) || '1', // Số kết nối tối thiểu
-      acquire: parseInt(process.env.DB_POOL_ACQUIRE) || '30000', // Thời gian tối đa (ms) để sequelize cố gắng 
+      max: parseInt(process.env.DB_POOL_MAX) || 10, // Số kết nối tối đa
+      min: parseInt(process.env.DB_POOL_MIN) || 1, // Số kết nối tối thiểu
+      acquire: parseInt(process.env.DB_POOL_ACQUIRE) || 30000, // Thời gian tối đa (ms) để sequelize cố gắng 
                                                                 // lấy 1 kết nối trước khi báo lỗi
-      idle: parseInt(process.env.DB_POOL_IDLE) || '10000' // Thời gian tối đa một kết nối rảnh hoạt động trước khi bị đóng (ms)
+      idle: parseInt(process.env.DB_POOL_IDLE) || 10000 // Thời gian tối đa một kết nối rảnh hoạt động trước khi bị đóng (ms)
     }
   }
 )
