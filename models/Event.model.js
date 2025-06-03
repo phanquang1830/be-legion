@@ -1,93 +1,55 @@
-import mongoose from 'mongoose';
+import { DataTypes } from 'sequelize';
+import sequelize from '../config/db.js';
 
-const eventSchema = new mongoose.Schema({
-  id: {
-    type: String,
-    required: true,
+const Event = sequelize.define('Event', {
+  event_id: {
+    type: DataTypes.STRING,
+    allowNull: false,
     unique: true,
-    description: 'ID duy nhất của Event, tự động tăng'
+    primaryKey: true,
+    comment: 'ID duy nhất của Event, tự động tăng'
   },
   name: {
-    type: String,
-    required: true,
-    description: 'Tên Event'
+    type: DataTypes.STRING,
+    allowNull: false,
+    comment: 'Tên Event'
   },
-  slug: {
-    type: String,
-    description: 'URL thân thiện của Event'
-  },
-  host: {
-    type: String,
-    description: 'Người tổ chức Event'
-  },
-  community_member_id: {
-    type: String,
-    description: 'ID của thành viên tổ chức'
-  },
-  in_person_location: {
-    type: String,
-    description: 'Địa điểm tổ chức Event'
-  },
+  slug: DataTypes.STRING,
+  host: DataTypes.STRING,
+  community_member_id: DataTypes.STRING,
+  in_person_location: DataTypes.STRING,
   starts_at: {
-    type: Date,
-    required: true,
-    description: 'Thời gian Event bắt đầu'
+    type: DataTypes.DATE,
+    allowNull: false,
+    comment: 'Thời gian Event bắt đầu'
   },
   ends_at: {
-    type: Date,
-    required: true,
-    description: 'Thời gian Event kết thúc'
+    type: DataTypes.DATE,
+    allowNull: false,
+    comment: 'Thời gian Event kết thúc'
   },
   created_at: {
-    type: Date,
-    default: Date.now,
-    description: 'Thời gian tạo Event'
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    comment: 'Thời gian tạo Event'
   },
   updated_at: {
-    type: Date,
-    default: Date.now,
-    description: 'Thời gian cập nhật Event gần nhất'
+    type: DataTypes.DATE,
+    defaultValue: DataTypes.NOW,
+    comment: 'Thời gian cập nhật Event gần nhất'
   },
-  url: {
-    type: String,
-    description: 'URL đầy đủ của Event'
-  },
-  cover_image_url: {
-    type: String,
-    description: 'URL ảnh bìa của Event'
-  },
-  description: {
-    type: String,
-    description: 'Mô tả chi tiết Event'
-  },
-  price: {
-    type: Number,
-    description: 'Giá vé hoặc phí tham dự (Đơn vị VND)'
-  },
-  max_attendees: {
-    type: Number,
-    description: 'Số lượng người tham gia tối đa'
-  },
-  current_attendees: {
-    type: Number,
-    description: 'Số lượng người đăng kí'
-  },
-  status: {
-    type: String,
-    enum: ['upcoming', 'ongoing', 'finished', 'cancelled'],
-    description: 'Trạng thái (upcoming/ongoing/finished/cancelled)'
-  },
-  category: {
-    type: String,
-    description: 'Loại Event (workshop/talk/networking/yoga...)'
-  },
-  location_URL: {
-    type: String,
-    description: 'URL Google Map của Event'
-  }
+  url: DataTypes.STRING,
+  cover_image_url: DataTypes.STRING,
+  description: DataTypes.TEXT,
+  price: DataTypes.FLOAT,
+  max_attendees: DataTypes.INTEGER,
+  current_attendees: DataTypes.INTEGER,
+  status: DataTypes.STRING,
+  category: DataTypes.STRING,
+  location_URL: DataTypes.STRING
 }, {
-  collection: 'events'
+  tableName: 'events',
+  timestamps: false
 });
 
-const Event = mongoose.model('Event', eventSchema);
 export default Event;

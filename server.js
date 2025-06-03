@@ -5,9 +5,13 @@ import eventRoutes from './routes/Event.routes.js'; // Adjust the path as necess
 import errorHandler from './middlewares/errorHandler.js';
 import swaggerUi from 'swagger-ui-express';
 import YAML from 'yamljs';
+import { sequelize } from './config/db.js'; // Import the sequelize instance
 
 dotenv.config();
-connectDB(); // Connect to MongoDB
+connectDB(); // Connect to MySQL
+
+sequelize.sync();
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
