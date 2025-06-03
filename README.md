@@ -30,7 +30,7 @@ PORT=3000
 ## 4. Seed dữ liệu mẫu (tùy chọn)
 Nếu muốn có dữ liệu mẫu, chạy:
 ```bash
-node seed.js
+node seed.js(tôi đã chạy săn r nên bạn không cần chạychạy)
 ```
 
 ## 5. Chạy dự án

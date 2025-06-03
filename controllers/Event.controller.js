@@ -7,7 +7,10 @@ import paginate from "../middlewares/paginate.middleware.js";
 // @route   GET /api/events 
 // @access  Public
 const getAllEventController = (req, res) => {
-    res.status(200).json(res.paginatedResult);
+    res.status(200).json({
+        message: "Lấy danh sách sự kiện thành công",
+        ...res.paginatedResult
+    });
 };
 
 // @desc    Get event by ID 
@@ -15,12 +18,14 @@ const getAllEventController = (req, res) => {
 // @access  Public
 const getEventByIdController = asyncHandler(async (req, res) => {
     const { id } = req.params;
-    // Tìm theo primary key (event_id) hoặc trường id khác nếu bạn đặt tên khác
     const event = await Event.findOne({ where: { event_id: id } });
     if (!event) {
         throw new createError("ID Event không tồn tại", 404);
     }
-    res.status(200).json(event);
+    res.status(200).json({
+        message: "Lấy sự kiện thành công",
+        data: event
+    });
 });
 
 export {

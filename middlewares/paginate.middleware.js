@@ -1,3 +1,5 @@
+import { sequelize } from '../config/db.js';
+
 const paginate = (model) => async (req, res, next) => {
     const page = Number(req.query.page) || 1;
     const limit = Number(req.query.limit) || 10;
@@ -7,7 +9,9 @@ const paginate = (model) => async (req, res, next) => {
         const { count, rows } = await model.findAndCountAll({
             offset,
             limit,
-            order: [['created_at', 'DESC']]
+            order: [
+                [sequelize.literal('CAST(SUBSTRING(event_id, 6) AS UNSIGNED)'), 'ASC']
+            ]
         });
 
         res.paginatedResult = {
