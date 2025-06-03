@@ -1,7 +1,7 @@
 // routes/event.routes.js
 import express from "express";
 import { getAllEventController, getEventByIdController } from "../controllers/Event.controller.js";
-import paginate from "../middlewares/paginate.js";
+import paginate from "../middlewares/paginate.middleware.js";
 import Event from "../models/Event.model.js";
 
 const router = express.Router();

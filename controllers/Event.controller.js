@@ -1,6 +1,7 @@
 import asyncHandler from "express-async-handler";
 import Event from "../models/Event.model.js";
 import createError from "../middlewares/createError.middleware.js";
+import paginate from "../middlewares/paginate.middleware.js";
 
 // @desc    Get all events
 // @route   GET /api/events 

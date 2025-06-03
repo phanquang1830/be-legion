@@ -1,5 +1,5 @@
 import { DataTypes } from 'sequelize';
-import sequelize from '../config/db.js';
+import { sequelize } from '../config/db.js'; // Sửa lại dòng này
 
 const Event = sequelize.define('Event', {
   event_id: {
