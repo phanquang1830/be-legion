@@ -1,9 +1,12 @@
-import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import { sequelize } from './config/db.js';
 import Event from './models/Event.model.js';
+
+dotenv.config();
 
 const sampleEvents = [
   {
-    id: "event1",
+    event_id: "event1",
     name: "Vietnam Gameverse 2025",
     slug: "vietnam-gameverse-2025",
     host: "Gameverse Org",
@@ -22,7 +25,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc1"
   },
   {
-    id: "event2",
+    event_id: "event2",
     name: "Tech Day 2025",
     slug: "tech-day-2025",
     host: "FPT Software",
@@ -41,7 +44,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc2"
   },
   {
-    id: "event3",
+    event_id: "event3",
     name: "Startup Open Day",
     slug: "startup-open-day",
     host: "FTU Hà Nội",
@@ -60,7 +63,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc3"
   },
   {
-    id: "event4",
+    event_id: "event4",
     name: "AI Hackathon 2025",
     slug: "ai-hackathon-2025",
     host: "BKAI",
@@ -79,7 +82,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc4"
   },
   {
-    id: "event5",
+    event_id: "event5",
     name: "Developer Conference VN",
     slug: "developer-conference-vn",
     host: "DevConf",
@@ -98,7 +101,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc5"
   },
   {
-    id: "event6",
+    event_id: "event6",
     name: "Cosplay Festival 2025",
     slug: "cosplay-festival-2025",
     host: "Cosplay Club",
@@ -117,7 +120,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc6"
   },
   {
-    id: "event7",
+    event_id: "event7",
     name: "Yoga Retreat 2025",
     slug: "yoga-retreat-2025",
     host: "Yoga Life",
@@ -136,7 +139,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc7"
   },
   {
-    id: "event8",
+    event_id: "event8",
     name: "Blockchain Summit 2025",
     slug: "blockchain-summit-2025",
     host: "Blockchain Assoc",
@@ -155,7 +158,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc8"
   },
   {
-    id: "event9",
+    event_id: "event9",
     name: "Women in Tech 2025",
     slug: "women-in-tech-2025",
     host: "WomenTech",
@@ -174,7 +177,7 @@ const sampleEvents = [
     location_URL: "https://goo.gl/maps/abc9"
   },
   {
-    id: "event10",
+    event_id: "event10",
     name: "Networking Night 2025",
     slug: "networking-night-2025",
     host: "BizNet",
@@ -192,100 +195,39 @@ const sampleEvents = [
     category: "networking",
     location_URL: "https://goo.gl/maps/abc10"
   },
-  {
-    id: "event11",
-    name: "Open Source Day 2025",
-    slug: "open-source-day-2025",
-    host: "OpenVN",
-    community_member_id: "8k4e2b3f-cc3d-4f2c-90ab-23a5f01b9a88",
-    in_person_location: "Hội trường Đại học CNTT",
-    starts_at: new Date("2025-12-22"),
-    ends_at: new Date("2025-12-22"),
-    url: "https://su-kien/open-source-day-2025",
-    cover_image_url: "https://example.com/images/event11.jpg",
-    description: "Ngày hội phần mềm nguồn mở Việt Nam.",
-    price: 0,
-    max_attendees: 400,
-    current_attendees: 210,
+  // 15 sự kiện mẫu tiếp theo (tạo tự động)
+  ...Array.from({ length: 15 }, (_, i) => ({
+    event_id: `event${i + 11}`,
+    name: `Sample Event ${i + 11}`,
+    slug: `sample-event-${i + 11}`,
+    host: `Host ${i + 11}`,
+    community_member_id: `member${i + 11}`,
+    in_person_location: `Location ${i + 11}`,
+    starts_at: new Date(`2026-01-${(i % 28) + 1}`),
+    ends_at: new Date(`2026-01-${(i % 28) + 2}`),
+    url: `https://su-kien/sample-event-${i + 11}`,
+    cover_image_url: `https://example.com/images/event${i + 11}.jpg`,
+    description: `Mô tả sự kiện mẫu số ${i + 11}`,
+    price: 100000 + i * 10000,
+    max_attendees: 100 + i * 10,
+    current_attendees: 50 + i * 5,
     status: "upcoming",
-    category: "conference",
-    location_URL: "https://goo.gl/maps/abc11"
-  },
-  {
-    id: "event12",
-    name: "Startup Pitching 2025",
-    slug: "startup-pitching-2025",
-    host: "Startup Hub",
-    community_member_id: "9l4e2b3f-cc3d-4f2c-90ab-23a5f01b9a89",
-    in_person_location: "Saigon Innovation Hub",
-    starts_at: new Date("2025-12-25"),
-    ends_at: new Date("2025-12-25"),
-    url: "https://su-kien/startup-pitching-2025",
-    cover_image_url: "https://example.com/images/event12.jpg",
-    description: "Sân chơi gọi vốn cho startup trẻ.",
-    price: 50000,
-    max_attendees: 200,
-    current_attendees: 120,
-    status: "upcoming",
-    category: "networking",
-    location_URL: "https://goo.gl/maps/abc12"
-  },
-  {
-    id: "event13",
-    name: "Agile Vietnam 2025",
-    slug: "agile-vietnam-2025",
-    host: "Agile Vietnam",
-    community_member_id: "0m4e2b3f-cc3d-4f2c-90ab-23a5f01b9a90",
-    in_person_location: "Grand Plaza Hanoi",
-    starts_at: new Date("2025-12-28"),
-    ends_at: new Date("2025-12-29"),
-    url: "https://su-kien/agile-vietnam-2025",
-    cover_image_url: "https://example.com/images/event13.jpg",
-    description: "Hội thảo Agile lớn nhất Việt Nam.",
-    price: 150000,
-    max_attendees: 350,
-    current_attendees: 200,
-    status: "upcoming",
-    category: "workshop",
-    location_URL: "https://goo.gl/maps/abc13"
-  },
-  {
-    id: "event14",
-    name: "Design Thinking Bootcamp",
-    slug: "design-thinking-bootcamp",
-    host: "DesignLab",
-    community_member_id: "1n4e2b3f-cc3d-4f2c-90ab-23a5f01b9a91",
-    in_person_location: "Innovation Lab HCM",
-    starts_at: new Date("2026-01-05"),
-    ends_at: new Date("2026-01-07"),
-    url: "https://su-kien/design-thinking-bootcamp",
-    cover_image_url: "https://example.com/images/event14.jpg",
-    description: "Bootcamp về tư duy thiết kế sáng tạo.",
-    price: 350000,
-    max_attendees: 120,
-    current_attendees: 80,
-    status: "upcoming",
-    category: "workshop",
-    location_URL: "https://goo.gl/maps/abc14"
-  }
+    category: "sample",
+    location_URL: `https://goo.gl/maps/abc${i + 11}`
+  }))
 ];
 
-mongoose.connect('mongodb+srv://dbEvent:admin123@cluster0.bg84pcc.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0')
-  .then(async () => {
-    console.log("✅ Đã kết nối MongoDB");
+(async () => {
+  try {
+    await sequelize.sync({ force: true }); // Xóa và tạo lại bảng
+    console.log("✅ Đã đồng bộ bảng Event");
 
-    await Event.deleteMany();
-    console.log("🗑️ Đã xoá dữ liệu cũ");
+    await Event.bulkCreate(sampleEvents);
+    console.log(`✅ Đã thêm ${sampleEvents.length} sự kiện mẫu vào MySQL`);
 
-    try {
-      await Event.insertMany(sampleEvents, { ordered: false });
-      console.log("✅ Đã thêm 10 sự kiện mẫu vào MongoDB");
-    } catch (error) {
-      console.error("❌ Lỗi khi thêm một số sự kiện:", error);
-    }
-
-    mongoose.disconnect();
-  })
-  .catch((err) => {
-    console.error("❌ Lỗi kết nối MongoDB:", err);
-  });
+    process.exit(0);
+  } catch (error) {
+    console.error("❌ Lỗi khi seed dữ liệu:", error);
+    process.exit(1);
+  }
+})();
