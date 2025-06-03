@@ -11,7 +11,13 @@ const sequelize = new Sequelize(
         host: process.env.MYSQL_HOST || 'localhost',
         dialect: 'mysql',
         logging: false,
-        port: process.env.MYSQL_PORT || 3306
+        port: process.env.MYSQL_PORT || 3306,
+        pool: {
+            max: Number(process.env.MYSQL_POOL_MAX) || 10,// Số kết nối tối đa trong pool
+            min: Number(process.env.MYSQL_POOL_MIN) || 0,// Số kết nối tối thiểu trong pool
+            acquire: Number(process.env.MYSQL_POOL_ACQUIRE) || 30000,// Thời gian tối đa để kết nối được lấy từ pool (ms)
+            idle: Number(process.env.MYSQL_POOL_IDLE) || 10000// Thời gian tối đa để kết nối không hoạt động trước khi bị giải phóng (ms)
+        }
     }
 );
 
