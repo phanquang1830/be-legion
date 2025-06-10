@@ -98,10 +98,10 @@ components:
     Event:
       type: object
       properties:
-        id: 
+        event_id: 
           type: string
           example: "event1"
-        name: 
+        ten_events: 
           type: string
           example: "Event cosplay"
         slug:
