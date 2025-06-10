@@ -6,8 +6,14 @@ const notFound = (req, res, next) => {
 
 const errorHandler = (err, req, res, next) =>{
     const statusCode = res.statusCode === 200 ? 500 : res.statusCode
-    res.status(statusCode)
-    res.json({message: err.message})
+    res.status(statusCode).json({
+      statusCode,
+      message: 'Có lỗi xảy ra',
+      data: null,
+      error: err.message || 'Unknow error',
+      stack: process.env.NODE_ENV === 'production' ? null : err.stack,
+    })
+    
 }
 
 export {notFound, errorHandler}
