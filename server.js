@@ -13,7 +13,15 @@ const PORT = parseInt(process.env.PORT) || 3000
 
 const swaggerDocument = YAML.load("./event-api.yaml");
 
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
+  explorer: true,
+  swaggerOptions: {
+    defaultModelsExpandDepth: 2, // 👈 cho hiện mô tả chi tiết field
+    defaultModelExpandDepth: 2,
+    docExpansion: "none", // hoặc "list", hoặc "full"
+  }
+}))
+
 
 app.use(express.json())
 
