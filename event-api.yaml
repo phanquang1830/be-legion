@@ -98,67 +98,86 @@ components:
     Event:
       type: object
       properties:
-        event_id: 
+        event_id:
+          type: number
+          description: ID duy nhất của sự kiện.
+          example: 2
+        ten_events:
           type: string
-          example: "event1"
-        ten_events: 
-          type: string
-          example: "Event cosplay"
+          description: Tên đầy đủ của sự kiện.
+          example: "The Future of Fundraising in Vietnam"
         slug:
           type: string
-          example: "event-cosplay"
+          description: Chuỗi thân thiện với URL (slug) của sự kiện, được tạo từ tên sự kiện.
+          example: "the-future-of-fundraising-in-vietnam"
         host:
           type: string
-          example: "Yuu"
+          description: Tên của người hoặc tổ chức chủ trì sự kiện.
+          example: "Mark Dickens"
         community_member_id:
-          type: string
-          example: 7a4e2b3f-cc3d-4f2c-90ab-23a5f01b9a78
+          type: number
+          description: ID của thành viên cộng đồng đã tạo hoặc quản lý sự kiện.
+          example: 1
         in_person_location:
           type: string
-          example: Trung tâm hội chợ triễn lãm Sài Gòn SECC, quận 7
-        starts_at: 
+          description: Địa điểm vật lý diễn ra sự kiện, nếu có.
+          example: "1 Lê Thánh Tôn, Q1, HCM"
+        starts_at:
           type: string
-          format: date
-          example: "2025-05-24"
+          format: date-time
+          description: Thời gian bắt đầu của sự kiện (định dạng ISO 8601).
+          example: "2025-05-07T18:00:00.000Z"
         ends_at:
           type: string
-          format: date
-          example: "2025-05-25"
+          format: date-time
+          description: Thời gian kết thúc của sự kiện (định dạng ISO 8601).
+          example: "2025-05-07T21:30:00.000Z"
         created_at:
           type: string
-          format: date
-          example: "2025-05-24"
+          format: date-time
+          description: Thời gian sự kiện được tạo trong hệ thống (định dạng ISO 8601).
+          example: "2025-06-04T17:36:48.000Z"
         updated_at:
           type: string
-          format: date
-          example: "2025-05-24"
-        url: 
+          format: date-time
+          description: Thời gian lần cuối thông tin sự kiện được cập nhật (định dạng ISO 8601).
+          example: "2025-06-04T09:36:48.000Z"
+        url:
           type: string
-          example: "https://su-kien/event-cosplay"
+          description: URL của trang sự kiện hoặc trang chi tiết trên nền tảng.
+          example: "https://via-staging.circle.so/c/fundraising-space/the-future-of-fundraising-in-vietnam"
         cover_image_url:
           type: string
-          example: "https://images/events/event-cosplay-cover.jpg"
-        description: 
+          description: URL của hình ảnh bìa hoặc đại diện cho sự kiện.
+          example: "https://assets-v2.circle.so/tpes0cqsre18hcwvq3ct1159k7m3"
+        description:
           type: string
-          example: "Event Cosplay năm 2025..."
-        price: 
-          type: number
-          example: 250000
+          description: Mô tả chi tiết về sự kiện, bao gồm nội dung, mục tiêu và các thông tin liên quan khác.
+          example: "Vietnam's startup ecosystem is rapidly evolving, drawing increased attention from both local and international investors..."
+        price:
+          type: string
+          description: Giá vé tham dự sự kiện. Có thể là số tiền cụ thể hoặc chuỗi như "Miễn phí".
+          example: "Miễn phí"
         max_attendees:
           type: number
-          example: 300
-        current_attendees: 
+          description: Số lượng người tham dự tối đa mà sự kiện có thể chứa.
+          example: 100
+        current_attendees:
           type: number
-          example: 150
-        status: 
+          description: Số lượng người tham dự hiện tại đã đăng ký hoặc check-in.
+          example: 45
+        status:
           type: string
+          description: Trạng thái hiện tại của sự kiện.
           example: "upcoming"
-        category: 
+        category:
           type: string
-          example: "Cosplay"
+          description: Danh mục hoặc loại hình của sự kiện.
+          example: "Networking"
         location_URL:
           type: string
-          example: "https://www.google.com/maps/place/Ho+Chi+Minh+City/@10.762622,106.660172,15z"
+          description: URL bản đồ hoặc đường dẫn đến địa điểm trực tuyến của sự kiện (nếu có).
+          example: "https://goo.gl/maps/1LThanhTonQ1HCM"
 
   responses:
     BadRequest:
