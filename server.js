@@ -2,6 +2,7 @@ const express = require('express');
 const dotenv = require('dotenv');
 const YAML = require('yamljs');
 const swaggerUi = require('swagger-ui-express');
+const cors = require('cors'); 
 
 const eventRouter = require('./routes/event.routes.js');
 const { notFound, errorHandler } = require('./middlewares/error.middleware.js');
@@ -24,6 +25,7 @@ app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument, {
 
 
 app.use(express.json())
+app.use(cors());
 
 app.use('/api/events', eventRouter)
 
