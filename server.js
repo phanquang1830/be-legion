@@ -1,10 +1,10 @@
-import express from 'express'
-import dotenv from 'dotenv'
-import YAML from 'yamljs';
-import swaggerUi from 'swagger-ui-express';
+const express = require('express');
+const dotenv = require('dotenv');
+const YAML = require('yamljs');
+const swaggerUi = require('swagger-ui-express');
 
-import eventRouter from './routes/event.routes.js'
-import { notFound, errorHandler } from './middlewares/error.middleware.js';
+const eventRouter = require('./routes/event.routes.js');
+const { notFound, errorHandler } = require('./middlewares/error.middleware.js');
 
 dotenv.config();
 
