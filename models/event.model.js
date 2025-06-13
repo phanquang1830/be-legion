@@ -1,8 +1,13 @@
-import { DataTypes } from "sequelize"
-import sequelize from "../config/db.js" 
+const { DataTypes } = require("sequelize");
+const sequelize = require("../config/database");
 
 const Event = sequelize.define("Event", {
-    name: {
+    event_id: {
+    type: DataTypes.INTEGER,
+    primaryKey: true,
+    autoIncrement: true,
+    },
+    ten_events: {
         type: DataTypes.STRING,
         allowNull: false,
     },
@@ -79,7 +84,7 @@ const Event = sequelize.define("Event", {
     },
 }, {
     tableName: "events",
-    timestamps: false, 
-})
+    timestamps: false,
+});
 
-export default Event
+module.exports = Event;

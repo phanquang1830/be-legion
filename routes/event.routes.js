@@ -1,14 +1,15 @@
-import express from 'express';
+const express = require('express');
 const router = express.Router();
-import {
-    getAllListEvent,
-    getEventById,
-} from '../controllers/event.controller.js'
+
+const {
+  getAllListEvent,
+  getEventById,
+} = require('../controllers/event.controller');
 
 router.route('/')
-    .get(getAllListEvent)
-    
-router.route('/:id')
-    .get(getEventById)
+  .get(getAllListEvent);
 
-export default router
+router.route('/:id')
+  .get(getEventById);
+
+module.exports = router;

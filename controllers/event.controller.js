@@ -1,29 +1,29 @@
-import Event from '../models/event.model.js'
-import asyncHandler from 'express-async-handler';
-import { paginateWithSearch } from '../repositories/paginate.repository.js'
+const Event = require('../models/event.model');
+const asyncHandler = require('express-async-handler');
+const { paginateWithSearch } = require('../repositories/paginate.repositories');
 
 // @desc Fetch Event
 // @route GET /api/event
 // @access Public
 const getAllListEvent = asyncHandler(async (req, res) => {
-  const page = parseInt(req.query.page) || 1
-  const limit = parseInt(req.query.limit) || 8
-  const keyword = req.query.keyword || ''
+  const page = parseInt(req.query.page) || 1;
+  const limit = parseInt(req.query.limit) || 8;
+  const keyword = req.query.keyword || '';
 
   const result = await paginateWithSearch({
     model: Event,
     page,
     limit,
     keyword,
-    searchableField: 'name' 
-  })
+    searchableField: 'ten_events'
+  });
 
   res.json({
     statusCode: 200,
     message: 'Get Event success',
     ...result,
-  })
-})
+  });
+});
 
 // @desc Fetch single Event 
 // @route GET /api/event/:id
@@ -50,7 +50,7 @@ const getEventById = asyncHandler(async (req, res) => {
   });
 });
 
-export {
-    getAllListEvent,
-    getEventById,
+module.exports = {
+  getAllListEvent,
+  getEventById,
 };

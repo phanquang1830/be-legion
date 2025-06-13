@@ -1,40 +1,35 @@
-import { Sequelize } from "sequelize";
-import dotenv from "dotenv";
-dotenv.config();
+const { Sequelize } = require('sequelize');
+require('dotenv').config();
 
 const sequelize = new Sequelize(
-  process.env.DB_NAME,
-  process.env.DB_USER, 
-  process.env.DB_PASSWORD,
-  {
-    host: process.env.DB_HOST || 'localhost',
-    port: parseInt(process.env.DB_PORT) || 3306,
-    dialect: 'mysql',
-    logging: process.env.DB_LOGGING === 'true' ? console.log : false, //Bật tắt log của Sequelize
-
-    // Cấu hình mặc định cho các model
-    define: {
-      freezeTableName: true, // Không tự đổi tên table thành số nhiều (user => users)
-      timestamps: false // Tắt tự động tạo 2 trường createAt & updateAt 
-    },
-
-    pool: {
-      max: parseInt(process.env.DB_POOL_MAX) || 10, // Số kết nối tối đa
-      min: parseInt(process.env.DB_POOL_MIN) || 0, // Số kết nối tối thiểu
-      acquire: parseInt(process.env.DB_POOL_ACQUIRE) || 30000, // Thời gian tối đa (ms) để sequelize cố gắng 
-                                                                // lấy 1 kết nối trước khi báo lỗi
-      idle: parseInt(process.env.DB_POOL_IDLE) || 10000 // Thời gian tối đa một kết nối rảnh hoạt động trước khi bị đóng (ms)
+    process.env.DB_NAME,
+    process.env.DB_USER,
+    process.env.DB_PASSWORD,    {
+        host: process.env.DB_HOST || '5-y2x.h.filess.io',
+        port: process.env.DB_PORT || 3306,
+        dialect: 'mysql',
+        logging: process.env.DB_LOGGING === 'true' ? console.log : false,
+        define: {
+            freezeTableName: true,
+            timestamps: false
+        },
+        pool: {
+            max: parseInt(process.env.DB_POOL_MAX || '5'),
+            min: parseInt(process.env.DB_POOL_MIN || '0'),
+            acquire: parseInt(process.env.DB_POOL_ACQUIRE || '30000'),
+            idle: parseInt(process.env.DB_POOL_IDLE || '10000')
+        }
     }
-  }
-)
+);
 
+// Kiểm tra kết nối database khi khởi động
 sequelize
-  .authenticate()
-  .then(() =>{
-    console.log('Database connected')
-  })
-  .catch(err =>{
-    console.log('Error to connect Database', err)
-  })
+    .authenticate()
+    .then(() => {
+        console.log('Kết nối database thành công.');
+    })
+    .catch(err => {
+        console.error('Lỗi kết nối database:', err);
+    });
 
-export default sequelize
+module.exports = sequelize;

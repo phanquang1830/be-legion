@@ -1,6 +1,6 @@
-import { Op } from 'sequelize'
+const { Op } = require('sequelize');
 
-export const paginateWithSearch = async ({
+const paginateWithSearch = async ({
   model,
   page = 1,
   limit = 8,
@@ -8,7 +8,7 @@ export const paginateWithSearch = async ({
   searchableField = 'name',
   order = [['created_at', 'DESC']]
 }) => {
-  const offset = limit * (page - 1)
+  const offset = limit * (page - 1);
 
   const whereClause = keyword
     ? {
@@ -16,14 +16,14 @@ export const paginateWithSearch = async ({
           [Op.like]: `%${keyword}%`
         }
       }
-    : {}
+    : {};
 
   const { count: totalDocuments, rows: data } = await model.findAndCountAll({
     where: whereClause,
     order,
     limit,
     offset
-  })
+  });
 
   return {
     data,
@@ -31,5 +31,7 @@ export const paginateWithSearch = async ({
     limit,
     totalPages: Math.ceil(totalDocuments / limit),
     totalDocuments
-  }
-}
+  };
+};
+
+module.exports = { paginateWithSearch };
