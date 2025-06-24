@@ -17,16 +17,16 @@ paths:
       summary: Lấy danh sách Event
       description: Trả về danh sách tất cả Event
       operationId: getAllListEvent
-      tags: 
+      tags:
         - Event
       parameters:
         - name: page
           in: query
           required: false
-          schema: 
+          schema:
             type: integer
             minimum: 1
-          description: Trang hiện tại (Mặc định là 1)
+          description: Trang hiện tại (mặc định là 1)
         - name: limit
           in: query
           required: false
@@ -34,7 +34,7 @@ paths:
             type: integer
             minimum: 1
             maximum: 100
-          description: Số lượng Event trên mỗi trang (Mặc định là 10)
+          description: Số lượng Event trên mỗi trang (mặc định là 10)
       responses:
         '200':
           description: Danh sách Event được trả về thành công
@@ -53,8 +53,21 @@ paths:
                     type: array
                     items:
                       $ref: '#/components/schemas/Event'
+                  currentPage:
+                    type: integer
+                    example: 1
+                  limit:
+                    type: integer
+                    example: 10
+                  totalPages:
+                    type: integer
+                    example: 5
+                  totalDocuments:
+                    type: integer
+                    example: 47
         '500':
           $ref: '#/components/responses/InternalServerError'
+
 
   /events/{id}:
     get:
